@@ -23,50 +23,6 @@ function HomeScreen({navigation}) {
 
    const {ChatData,SetChatData,socket,UserName,SetUserName} = useProvider()
 
-   const ChatD = [
-    {
-      ChatId: 0,
-      UserName: "Alice",
-      Message: "Hey there!",
-      TimeStamp: "12:00",
-      Reaction: null,
-    },
-    {
-      ChatId: 1,
-      UserName: "Bob",
-      Message: "Hi Alice! How are you?",
-      TimeStamp: "12:05",
-      Reaction: null,
-    },
-    {
-      ChatId: 2,
-      UserName: "Alice",
-      Message: "I'm doing great, thanks for asking!",
-      TimeStamp: "12:10",
-      Reaction: null,
-    },
-    {
-      ChatId: 3,
-      UserName: "Bob",
-      Message: "That's good to hear!",
-      TimeStamp: "12:15",
-      Reaction: null,
-    },
-    {
-      ChatId: 4,
-      UserName: "Bob",
-      Message: "What have you been up to lately?",
-      TimeStamp: "12:20",
-      Reaction: null,
-    },
-    {
-      ChatId: 5,
-      UserName: "Alice",
-      Message: "Not much, just working on some projects. How about you?",
-      TimeStamp: "12:25",
-      Reaction: null,
-    }
-  ];
 
 
   const SendMessage=(InputText:string)=>{
@@ -78,25 +34,45 @@ function HomeScreen({navigation}) {
 
         SetChatData((PrevData)=>([...PrevData,{
             ChatId:ChatData.length+1 ,
-            UserName: "Bob",
+            UserName: UserName,
             Message: InputText,
             TimeStamp: "12:20",
             Reaction: null,
           }]))
+
+          socket.emit("ClientMessage",[...ChatData,{
+            ChatId:ChatData.length+1 ,
+            UserName: UserName,
+            Message: InputText,
+            TimeStamp: "12:20",
+            Reaction: null,
+          }])
      }else{
 
         SetChatData([])
         SetChatData((PrevData)=>([...PrevData,{
             ChatId:0,
-            UserName: "Bob",
+            UserName: UserName,
             Message: InputText,
             TimeStamp: "12:20",
             Reaction: null,
           }]))
 
+          socket.emit("ClientMessage",[{
+            ChatId:0,
+            UserName: UserName,
+            Message: InputText,
+            TimeStamp: "12:20",
+            Reaction: null,
+          }])
+
      }
 
       SetInPutText("")
+
+    
+
+      
   }
 
   
@@ -111,8 +87,8 @@ function HomeScreen({navigation}) {
             SetIsConnected(true)
           })
 
-          socket.on('mobile',(data)=>{
-    
+          socket.on('ServerResponse',(data)=>{
+    SetChatData(data)
        
           })
 
@@ -120,7 +96,7 @@ function HomeScreen({navigation}) {
             SetIsConnected(false)
           });
 
-          SetUserName("Alice")
+          SetUserName("Siphokazi")
 
 
           SetGroupCode(GenerateRandomDigits(4))
