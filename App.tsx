@@ -7,6 +7,7 @@ import Scanner from './Screens/Scanner';
 import Detail from './Screens/Detail';
 import HomeScreen from './Screens/HomeScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AppProvider } from './Store/AppContext';
 
 
 
@@ -20,17 +21,20 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-   
+  
     <NavigationContainer>
+       <AppProvider>
       <Stack.Navigator initialRouteName='Home' screenOptions={{}}>
+    
         <Stack.Screen name="Home" component={HomeScreen} options={{
 headerShown:false
         }} />
         <Stack.Screen name="Scanner" component={Scanner} />
         <Stack.Screen name="Detail" component={Detail} />
       </Stack.Navigator>
+      </AppProvider>
     </NavigationContainer>
- 
+   
   );
 }
 

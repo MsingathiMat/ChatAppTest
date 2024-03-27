@@ -11,12 +11,13 @@ import { io } from "socket.io-client";
 
 import QRCode from "react-native-qrcode-svg";
 import ChatScreen from "../Components/ChatScreen";
+import { useProvider } from "../Store/AppContext";
 function HomeScreen({navigation}) {
 
     const [IsConnected,SetIsConnected]= useState<boolean>(false)
 
-   
-    let socket = io('http://192.168.110.22:543')
+   const {ChatData,SetChatData} = useProvider()
+    let socket = io('http://192.168.0.104:543')
 
 const QrGenerator = (QrData:string)=>{
 
@@ -33,7 +34,10 @@ const QrGenerator = (QrData:string)=>{
             SetIsConnected(true)
           })
 
-         
+          socket.on('mobile',(data)=>{
+    
+       
+          })
 
           socket.on("disconnect", () => {
             SetIsConnected(false)
@@ -51,10 +55,11 @@ const QrGenerator = (QrData:string)=>{
 
             height:110,
             width:'100%',
-            elevation:10,
-            backgroundColor:'white',
+            elevation:20,
+            backgroundColor:'#eff0ed',
             paddingHorizontal:20,
-            paddingTop:10
+            paddingTop:10,
+          
          
          
         }}>
@@ -89,12 +94,16 @@ const QrGenerator = (QrData:string)=>{
     width:'100%',
     justifyContent:'center',
     alignItems:'center',
-    gap:30
+    gap:0,
+    backgroundColor:'orange',
+  
 }}>
 
 {
 
-    IsConnected?  <>
+   ! IsConnected? 
+   
+   <>
 
     <View style={{backgroundColor:'white', padding:10, borderRadius:5}}>
     
