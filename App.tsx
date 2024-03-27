@@ -29,7 +29,7 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen} options={{
 headerShown:false
         }} />
-        <Stack.Screen name="Scanner" component={Scanner} />
+        <Stack.Screen name="Scanner" component={Scanner}  options={{headerShown:false}}/>
         <Stack.Screen name="Detail" component={Detail} />
       </Stack.Navigator>
       </AppProvider>

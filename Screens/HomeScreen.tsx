@@ -1,34 +1,78 @@
-import { AButton, AvatarAndDetail, CreateQrCode, GenerateRandomDigits, Showroom } from "aphrica";
-import { Image, Text, View } from "react-native";
+import { AButton, AInput, AvatarAndDetail, CreateQrCode, GenerateRandomDigits, Showroom } from "aphrica";
+import { Image, Text, TextInput, Touchable, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
 import LottieView from "lottie-react-native";
 import 'react-native-reanimated'
 import 'react-native-gesture-handler'
-
+import publicIP from 'react-native-public-ip';
 import { io } from "socket.io-client";
+import { FontAwesome } from '@expo/vector-icons';
+import * as Network from 'expo-network';
 
-import QRCode from "react-native-qrcode-svg";
+
 import ChatScreen from "../Components/ChatScreen";
 import { useProvider } from "../Store/AppContext";
 function HomeScreen({navigation}) {
 
     const [IsConnected,SetIsConnected]= useState<boolean>(false)
+    const [InPutText,SetInPutText]= useState<string>("")
 
-   const {ChatData,SetChatData,socket} = useProvider()
+    const [GroupCode,SetGroupCode]= useState(0)
 
+   const {ChatData,SetChatData,socket,UserName,SetUserName} = useProvider()
+
+   const ChatD = [
+    {
+      ChatId: 0,
+      UserName: "Alice",
+      Message: "Hey there!",
+      TimeStamp: "12:00",
+      Reaction: null,
+    },
+    {
+      ChatId: 1,
+      UserName: "Bob",
+      Message: "Hi Alice! How are you?",
+      TimeStamp: "12:05",
+      Reaction: null,
+    },
+    {
+      ChatId: 2,
+      UserName: "Alice",
+      Message: "I'm doing great, thanks for asking!",
+      TimeStamp: "12:10",
+      Reaction: null,
+    },
+    {
+      ChatId: 3,
+      UserName: "Bob",
+      Message: "That's good to hear!",
+      TimeStamp: "12:15",
+      Reaction: null,
+    },
+    {
+      ChatId: 4,
+      UserName: "Bob",
+      Message: "What have you been up to lately?",
+      TimeStamp: "12:20",
+      Reaction: null,
+    },
+    {
+      ChatId: 5,
+      UserName: "Alice",
+      Message: "Not much, just working on some projects. How about you?",
+      TimeStamp: "12:25",
+      Reaction: null,
+    }
+  ];
 
   
-
-const QrGenerator = (QrData:string)=>{
-
-
-
-}
-
     useEffect(()=>{
 
+
+      
         socket.emit('greet', {AppType:'web',id:7403})
  
         socket.on('server',(data)=>{
@@ -45,8 +89,11 @@ const QrGenerator = (QrData:string)=>{
             SetIsConnected(false)
           });
 
-    //    GenerateQrCode({Text:"https://www.npmjs.com/package/qrcode",Callback:QrGenerator})
+          SetUserName("Alice")
 
+
+          SetChatData(ChatD);
+          SetGroupCode(GenerateRandomDigits(4))
 
     },[])
     return (
@@ -70,7 +117,7 @@ const QrGenerator = (QrData:string)=>{
     justifyContent:'space-between',
     alignItems:'center'
    }}>
-  <AvatarAndDetail CallBackFunc={()=>{}} AvatarScale={1} RingScale={1.1} AvatarRing={true}  BottomLine='The greatest' LastSeen='12:00' Title="Matthew" ImageUrl='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7La67pwXxpB3SRfeDWGvS_6ZHWA4pWIpmvPnmHotqQZEgDbFIXBWFybdQ_ADy6twwrTIl'/>
+  <AvatarAndDetail CallBackFunc={()=>{}} AvatarScale={1} RingScale={1.1} AvatarRing={true}  BottomLine='The greatest' LastSeen='12:00' Title={UserName} ImageUrl='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7La67pwXxpB3SRfeDWGvS_6ZHWA4pWIpmvPnmHotqQZEgDbFIXBWFybdQ_ADy6twwrTIl'/>
 
 <View style={{
 
@@ -79,14 +126,17 @@ const QrGenerator = (QrData:string)=>{
 }}>
 
 
-<Text style={{fontSize:20, fontWeight:'bold', color:'orange'}}>{GenerateRandomDigits(4)}</Text>
+<Text style={{fontSize:20, fontWeight:'bold', color:'orange'}}>{GroupCode}</Text>
 <Text style={{fontSize:11}}>Group Code</Text>
 </View>
 
+<TouchableOpacity onPress={()=>{ navigation.navigate('Scanner',{data:"Detail"})}}>
 <View style={{backgroundColor:'orange', width:40, height:40, justifyContent:'center', alignItems:'center', borderRadius:10}}>
 
 <Ionicons name="qr-code-outline" size={24} color="white" />
+
 </View>
+</TouchableOpacity>
   </SafeAreaView>
         </View>
 
@@ -107,16 +157,19 @@ const QrGenerator = (QrData:string)=>{
    
    <>
 
-    <View style={{backgroundColor:'white', padding:10, borderRadius:5}}>
+ 
+
+   <View style={{backgroundColor:'white', padding:10, borderRadius:5}}>
     
     <CreateQrCode size={140}value="matthew" />
     </View>
+ 
     
     <Text>Ask your friend to scan and join your CORD</Text>
     </>
     :
   
-    <ChatScreen/>
+    <ChatScreen ChatData={ChatData}/>
 //  <>
  
 //   <LottieView
@@ -131,9 +184,23 @@ const QrGenerator = (QrData:string)=>{
 </View>
 
 
-<View style={{backgroundColor:'white', height:100}}>
+<View style={{backgroundColor:'white', height:100, flexDirection:'row', gap:20, alignItems:'center', justifyContent:'center'} }>
 
-<Text>Footer</Text>
+<AInput  BackgroundColor="#f2f6fc" Width={260} Height={50} InPutText={InPutText} SetInPutText={SetInPutText} />
+
+<TouchableOpacity style={{
+
+    width:50,
+    height:50,
+    backgroundColor:'#02d7de',
+    borderRadius:25,
+    justifyContent:'center',
+    alignItems:'center'
+}}>
+
+<FontAwesome name="paper-plane" size={20} color="white" style={{right:3}}/>
+</TouchableOpacity>
+
 </View>
    </View>
     );

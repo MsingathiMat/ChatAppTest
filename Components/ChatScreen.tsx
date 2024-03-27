@@ -7,8 +7,23 @@ import { MotiView } from 'moti';
 import { io } from 'socket.io-client';
 import { Easing } from 'react-native-reanimated';
 import { useProvider } from '../Store/AppContext';
-const ChatScreen = () => {
-  const {ChatData,SetChatData,socket} = useProvider()
+
+
+
+type ChatDataType={
+
+  ChatId:number,
+  UserName:string,
+  Message:string,
+  TimeStamp:string,
+  Reaction:React.ReactNode | null,
+  
+}
+
+
+const ChatScreen = ({ChatData}:{ChatData:ChatDataType[]}) => {
+
+ 
   const [visible,setvisible]=useState(false)
   const {height,width}= Dimensions.get('screen')
 
@@ -23,14 +38,11 @@ const ChatScreen = () => {
   };
  
 
+  const {UserName} = useProvider()
   useEffect(()=>{
   
 
-    socket.on('mobile',(data)=>{
-
-      setconvo(prevArray => [...prevArray, prevArray.length+1]);
-    })
-
+   
   },[])
   return (
 
@@ -52,12 +64,12 @@ const ChatScreen = () => {
 
 {
 
-Convo.map((index)=>(
+ChatData?.map((Chat)=>(
 
  
 <MotiView
 
-key={index}
+key={Chat.ChatId}
     from={{  translateY:50, opacity:0}}
     animate={{ translateY:visible?0:0 , opacity:1}}
     transition={{ 
@@ -71,12 +83,9 @@ key={index}
     }
     }}
   >
-<ChatBox   ChatIndicator={<Ionicons name="checkmark-done-outline" size={18} color="green" />} TimeStampColor='white' TimeStamp={new Date().getSeconds().toString()+" ago"} ReactionIcon={<Feather name="thumbs-up" size={18} color="black" />} Aligned={index%2==0?'LEFT':'RIGHT'} SharpCorner={index%2==0?'TopRight':'TopLeft'} MessageColor={index%2==0?'gray':'white'} BackgroundColor= {index%2==0?'#d5ebdd' :'#eda726'}
+<ChatBox    ChatIndicator={<Ionicons name="checkmark-done-outline" size={18} color="green" />} TimeStampColor='white' TimeStamp={Chat.TimeStamp} ReactionIcon={Chat.Reaction} Aligned={UserName==Chat.UserName?'LEFT':'RIGHT'} SharpCorner={UserName==Chat.UserName?'TopRight':'TopLeft'} MessageColor={UserName==Chat.UserName?'gray':'white'} BackgroundColor= {UserName==Chat.UserName?'#d5ebdd' :'#eda726'}
 
-Message='Contrary to popular belief, Lorem Ipsum is not simply random text. 
-
-classical literature, discovered the undoubtable source. Lorem Ipsum comes 
-' 
+Message={Chat.Message}
 />
 </MotiView>
 
