@@ -68,6 +68,37 @@ function HomeScreen({navigation}) {
     }
   ];
 
+
+  const SendMessage=(InputText:string)=>{
+
+ 
+
+     if(ChatData){
+
+
+        SetChatData((PrevData)=>([...PrevData,{
+            ChatId:ChatData.length+1 ,
+            UserName: "Bob",
+            Message: InputText,
+            TimeStamp: "12:20",
+            Reaction: null,
+          }]))
+     }else{
+
+        SetChatData([])
+        SetChatData((PrevData)=>([...PrevData,{
+            ChatId:0,
+            UserName: "Bob",
+            Message: InputText,
+            TimeStamp: "12:20",
+            Reaction: null,
+          }]))
+
+     }
+
+      SetInPutText("")
+  }
+
   
     useEffect(()=>{
 
@@ -92,7 +123,6 @@ function HomeScreen({navigation}) {
           SetUserName("Alice")
 
 
-          SetChatData(ChatD);
           SetGroupCode(GenerateRandomDigits(4))
 
     },[])
@@ -196,7 +226,7 @@ function HomeScreen({navigation}) {
     borderRadius:25,
     justifyContent:'center',
     alignItems:'center'
-}}>
+}}  onPress={()=>{SendMessage(InPutText)}}>
 
 <FontAwesome name="paper-plane" size={20} color="white" style={{right:3}}/>
 </TouchableOpacity>

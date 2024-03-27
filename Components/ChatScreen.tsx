@@ -83,7 +83,7 @@ key={Chat.ChatId}
     }
     }}
   >
-<ChatBox    ChatIndicator={<Ionicons name="checkmark-done-outline" size={18} color="green" />} TimeStampColor='white' TimeStamp={Chat.TimeStamp} ReactionIcon={Chat.Reaction} Aligned={UserName==Chat.UserName?'LEFT':'RIGHT'} SharpCorner={UserName==Chat.UserName?'TopRight':'TopLeft'} MessageColor={UserName==Chat.UserName?'gray':'white'} BackgroundColor= {UserName==Chat.UserName?'#d5ebdd' :'#eda726'}
+<ChatBox    ChatIndicator={<Ionicons name="checkmark-done-outline" size={18} color="green" />} TimeStampColor='white' TimeStamp={Chat.TimeStamp} ReactionIcon={Chat.Reaction} Aligned={UserName==Chat.UserName?'LEFT':'RIGHT'} SharpCorner={UserName==Chat.UserName?'TopRight':'TopLeft'} MessageColor={UserName==Chat.UserName?'gray':'white'} BackgroundColor= {UserName==Chat.UserName?'#d5ebdd' :'#679dd6'}
 
 Message={Chat.Message}
 />
