@@ -4,6 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
 import LottieView from "lottie-react-native";
+import 'react-native-reanimated'
+import 'react-native-gesture-handler'
 
 import { io } from "socket.io-client";
 
