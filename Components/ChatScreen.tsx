@@ -6,8 +6,9 @@ import { Feather } from '@expo/vector-icons';
 import { MotiView } from 'moti';
 import { io } from 'socket.io-client';
 import { Easing } from 'react-native-reanimated';
+import { useProvider } from '../Store/AppContext';
 const ChatScreen = () => {
-
+  const {ChatData,SetChatData,socket} = useProvider()
   const [visible,setvisible]=useState(false)
   const {height,width}= Dimensions.get('screen')
 
@@ -20,7 +21,7 @@ const ChatScreen = () => {
       scrollViewRef.current.scrollToEnd({ animated: true });
     }
   };
-  let socket = io('http://192.168.0.104:543')
+ 
 
   useEffect(()=>{
   

@@ -16,8 +16,10 @@ function HomeScreen({navigation}) {
 
     const [IsConnected,SetIsConnected]= useState<boolean>(false)
 
-   const {ChatData,SetChatData} = useProvider()
-    let socket = io('http://192.168.0.104:543')
+   const {ChatData,SetChatData,socket} = useProvider()
+
+
+  
 
 const QrGenerator = (QrData:string)=>{
 
