@@ -1,23 +1,41 @@
-import { AButton, AvatarAndDetail, GenerateQrCode, GenerateRandomDigits, Showroom } from "aphrica";
+import { AButton, AvatarAndDetail, CreateQrCode, GenerateRandomDigits, Showroom } from "aphrica";
 import { Image, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
+import LottieView from "lottie-react-native";
+
+import { io } from "socket.io-client";
 
 import QRCode from "react-native-qrcode-svg";
+import ChatScreen from "../Components/ChatScreen";
 function HomeScreen({navigation}) {
 
-    const [QrData,SetQrData]= useState<string | null>(null)
+    const [IsConnected,SetIsConnected]= useState<boolean>(false)
+
+   
+    let socket = io('http://192.168.110.22:543')
 
 const QrGenerator = (QrData:string)=>{
 
-SetQrData(QrData)
+
 
 }
 
     useEffect(()=>{
 
-        
+        socket.emit('greet', {AppType:'web',id:7403})
+ 
+        socket.on('server',(data)=>{
+    
+            SetIsConnected(true)
+          })
+
+         
+
+          socket.on("disconnect", () => {
+            SetIsConnected(false)
+          });
 
     //    GenerateQrCode({Text:"https://www.npmjs.com/package/qrcode",Callback:QrGenerator})
 
@@ -66,13 +84,37 @@ SetQrData(QrData)
 <View style={{
 
     flex:1,
-    width:'100%'
+    width:'100%',
+    justifyContent:'center',
+    alignItems:'center',
+    gap:30
 }}>
 
-<Text>Text</Text>
+{
 
-<GenerateQrCode value="matthew" />
+    IsConnected?  <>
 
+    <View style={{backgroundColor:'white', padding:10, borderRadius:5}}>
+    
+    <CreateQrCode size={140}value="matthew" />
+    </View>
+    
+    <Text>Ask your friend to scan and join your CORD</Text>
+    </>
+    :
+  
+    <ChatScreen/>
+//  <>
+ 
+//   <LottieView
+//      source={require('../assets/appAssets/disconnected.json')}
+//       style={{width: "80%", height: "80%"}}
+//       autoPlay
+//       loop
+//     />
+//  </>
+  
+}
 </View>
 
 
