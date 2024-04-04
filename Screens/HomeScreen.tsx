@@ -1,4 +1,4 @@
-import { AButton, AInput, AvatarAndDetail, CreateQrCode, GenerateRandomDigits, Showroom } from "aphrica";
+import { AButton, AInput, AvatarAndDetail, CreateQrCode, GenerateRandomDigits, PickImage, Showroom } from "aphrica";
 import { Image, Text, TextInput, Touchable, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
@@ -23,11 +23,15 @@ function HomeScreen({navigation}) {
 
    const {ChatData,SetChatData,socket,UserName,SetUserName} = useProvider()
 
-
+const [url,seturl] = useState('')
 
   const SendMessage=(InputText:string)=>{
 
- 
+//   PickImage({Camera:true, CallBack:(imageData:string)=>{
+
+  
+//     socket.emit("Image",imageData)
+//  }})
 
      if(ChatData){
 
@@ -89,6 +93,8 @@ function HomeScreen({navigation}) {
 
           socket.on('ServerResponse',(data)=>{
     SetChatData(data)
+
+  
        
           })
 
@@ -96,7 +102,7 @@ function HomeScreen({navigation}) {
             SetIsConnected(false)
           });
 
-          SetUserName("Siphokazi")
+          SetUserName("John Doe")
 
 
           SetGroupCode(GenerateRandomDigits(4))

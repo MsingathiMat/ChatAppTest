@@ -9,7 +9,7 @@ type ChatDataTypes={
     UserName:string,
     Message:string,
     TimeStamp:string,
-    Reaction:React.ReactNode | null,
+    Reaction:number
     
 }
 

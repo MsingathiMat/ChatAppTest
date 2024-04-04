@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { Socket, io, } from "socket.io-client";
+import {  io, } from "socket.io-client";
 import { ChatDataTypes, ProviderProps } from "../Types/Types";
 
 
@@ -8,7 +8,10 @@ import { ChatDataTypes, ProviderProps } from "../Types/Types";
 
 
 
-const socket=io('http://192.168.110.22:543')
+const socket=io('https://ioserver.adaptable.app')
+
+// const socket=io('https://ioserver-three.vercel.app:543')
+
 
 
 const AppContext = createContext<ProviderProps>(null)

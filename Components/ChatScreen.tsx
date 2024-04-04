@@ -4,7 +4,7 @@ import { AButton, ChatBox, Showroom } from 'aphrica'
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { MotiView } from 'moti';
-import { io } from 'socket.io-client';
+
 import { Easing } from 'react-native-reanimated';
 import { useProvider } from '../Store/AppContext';
 
@@ -16,7 +16,7 @@ type ChatDataType={
   UserName:string,
   Message:string,
   TimeStamp:string,
-  Reaction:React.ReactNode | null,
+  Reaction:number,
   
 }
 
@@ -83,7 +83,7 @@ key={Chat.ChatId}
     }
     }}
   >
-<ChatBox    ChatIndicator={<Ionicons name="checkmark-done-outline" size={18} color="green" />} TimeStampColor='white' TimeStamp={Chat.TimeStamp} ReactionIcon={Chat.Reaction} Aligned={UserName==Chat.UserName?'LEFT':'RIGHT'} SharpCorner={UserName==Chat.UserName?'TopRight':'TopLeft'} MessageColor={UserName==Chat.UserName?'gray':'white'} BackgroundColor= {UserName==Chat.UserName?'#d5ebdd' :'#679dd6'}
+<ChatBox    ChatIndicator={<Ionicons name="checkmark-done-outline" size={18} color="green" />} TimeStampColor='white' TimeStamp={Chat.TimeStamp} ReactionIcon={0x0001F44D} Aligned={UserName==Chat.UserName?'LEFT':'RIGHT'} SharpCorner={UserName==Chat.UserName?'TopRight':'TopLeft'} MessageColor={UserName==Chat.UserName?'gray':'white'} BackgroundColor= {UserName==Chat.UserName?'#d5ebdd' :'#679dd6'}
 
 Message={Chat.Message}
 />

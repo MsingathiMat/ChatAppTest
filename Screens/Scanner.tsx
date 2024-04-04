@@ -7,7 +7,7 @@ function Scanner() {
 
     return (
   
-       
+      // @ts-ignore  
   <BarcodeScanner Screen={Route.params.data} />
     );
   }
